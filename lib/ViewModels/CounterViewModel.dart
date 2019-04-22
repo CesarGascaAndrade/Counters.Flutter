@@ -20,16 +20,18 @@ class CounterViewModel extends Model {
   int get count => this.counter.count;
 
   //Increment counter command
-  void IncrementCounter() {
-    this.service.IncrementCounter(this.counter);
+  void incrementCounter() {
+    this.service.incrementCounter(this.counter);
     notifyListeners();
   }
 
-  void DeleteCounter() {
-    this.service.DeleteCounter(this.counter);
+  void deleteCounter() {
+    this.service.deleteCounter(this.counter);
+    notifyListeners();
   }
 
-  void Prepare(Counter counter) {
+  void prepare(Counter counter) {
     this.counter = counter;
+    notifyListeners();
   }
 }

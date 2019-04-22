@@ -1,32 +1,36 @@
 import 'package:counters/Models/Counter.dart';
 import 'package:counters/Repositories/CountersRepository.dart';
-import 'package:counters/Repositories/iCounterRepository.dart';
 import 'package:counters/Services/iCountersService.dart';
 
-class CountersService implements iCountersService {
+class CountersService {
   CountersRepository repository;
 
-  CountersService(iCountersRepository repository) {
+  CountersService(CountersRepository repository) {
     this.repository = repository;
+    initialize();
+  }
+
+  void initialize() {
+    
   }
 
   Counter AddNewCounter(String name) {
     Counter counter = Counter(name:name);
-    this.repository.Save(counter);
+    //this.repository.Save(counter);
 
     return counter;
   }
 
-  List<Counter> GetAllCounters() {
+  Future<List<Counter>> getAllCounters() {
     return this.repository.GetAll();
   }
 
-  void DeleteCounter(Counter counter) {
-    this.repository.Delete(counter);
+  void deleteCounter(Counter counter) {
+    this.repository.delete(counter);
   }
   
-  void IncrementCounter(Counter counter) {
+  void incrementCounter(Counter counter) {
     counter.count += 1;
-    this.repository.Save(counter);
+    this.repository.save(counter);
   }
 }
