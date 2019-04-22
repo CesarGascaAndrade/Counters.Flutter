@@ -9,11 +9,10 @@ class CountersView extends StatefulWidget {
     // TODO: implement createState
     return CountersState();
   }
-
 }
 
-class CountersState extends State<CountersView>{
-@override
+class CountersState extends State<CountersView> {
+  @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant(
       builder: (BuildContext context, Widget child,
@@ -28,7 +27,7 @@ class CountersState extends State<CountersView>{
             padding: const EdgeInsets.all(8.0),
             child: (vm.counters.length < 1)
                 ? Center(
-                    child: Text("There's no counters yet"),
+                    child: vm.loading ? CircularProgressIndicator() : Text("There's no counters yet"),
                   )
                 : ListView.builder(
                     itemCount: vm.counters.length,
@@ -45,9 +44,9 @@ class CountersState extends State<CountersView>{
                               ),
                               onDismissed: (DismissDirection direction) {
                                 if (direction == DismissDirection.endToStart) {
-                                  counterViewModel.deleteCounter();
                                   setState(() {
-                                    vm.counters.removeAt(index);
+                                    counterViewModel.deleteCounter();
+                                    vm.loadCounters();
                                   });
                                 }
                               },

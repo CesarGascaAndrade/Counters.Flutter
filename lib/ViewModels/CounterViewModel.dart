@@ -27,6 +27,7 @@ class CounterViewModel extends Model {
 
   void deleteCounter() {
     this.service.deleteCounter(this.counter);
+    
     notifyListeners();
   }
 

@@ -6,6 +6,7 @@ import 'package:scoped_model/scoped_model.dart';
 class CountersViewModel extends Model {
   List<CounterViewModel> counters = List<CounterViewModel>();
   CountersService service;
+  bool loading = false;
 
   CountersViewModel(CountersService service) {
     this.service = service;
@@ -17,6 +18,7 @@ class CountersViewModel extends Model {
   }
 
   Future loadCounters() async {
+    loading = true;
     this.counters.clear();
 
     List<Counter> counters = await this.service.getAllCounters();
@@ -29,5 +31,10 @@ class CountersViewModel extends Model {
     });
     
     notifyListeners();
+    loading = false;
+  }
+
+  Future removeCounter(CounterViewModel counter) {
+    counter.deleteCounter();
   }
 }
