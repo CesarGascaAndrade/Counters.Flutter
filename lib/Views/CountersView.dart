@@ -6,7 +6,6 @@ import 'package:scoped_model/scoped_model.dart';
 class CountersView extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return CountersState();
   }
 }
