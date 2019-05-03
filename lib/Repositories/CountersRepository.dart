@@ -8,7 +8,7 @@ import 'package:path/path.dart';
 
 import 'package:sqflite/sqflite.dart';
 
-class CountersRepository  {
+class CountersRepository {
   final String tableName = "Gear";
 
   static Database _db;
@@ -30,8 +30,8 @@ class CountersRepository  {
         onCreate: (Database db, int version) async {
       print('creating db...');
 
-      await db.execute('CREATE TABLE IF NOT EXISTS counters (id INTEGER PRIMARY KEY AUTOINCREMENT, name STRING, count INT);');
-      
+      await db.execute(
+          'CREATE TABLE IF NOT EXISTS counters (id INTEGER PRIMARY KEY AUTOINCREMENT, name STRING, count INT);');
     });
 
     return theDb;
@@ -60,25 +60,22 @@ class CountersRepository  {
     }
     print('added db data');
     var results = await batch.commit();
-    
   }
 
   Future<List<Counter>> GetAll() async {
     var dbClient = await db;
-    
+
     //testing purporses
     //await dbClient.rawQuery("insert into counters(name, count) values('test',0)");
 
-    List<Map<String,dynamic>> list = await dbClient.rawQuery('SELECT * FROM counters');
+    List<Map<String, dynamic>> list =
+        await dbClient.rawQuery('SELECT * FROM counters');
 
     List<Counter> items = new List();
-    
+
     list.forEach((item) {
-      items.add(Counter(
-        id: item['id'],
-        name: item['name'],
-        count: item['count']
-      ));
+      items.add(
+          Counter(id: item['id'], name: item['name'], count: item['count']));
     });
 
     return items;
@@ -86,7 +83,13 @@ class CountersRepository  {
 
   Future save(Counter counter) async {
     var dbClient = await db;
-    await dbClient.rawQuery("update counters set count = ${counter.count} where id = ${counter.id}");
+    String q;
+    if (counter.id == 0) {
+      q = "insert into counters(name, count) values('${counter.name}',0)";
+    } else {
+      q = "update counters set name = '${counter.name}', count = ${counter.count} where id = ${counter.id}";
+    }
+    dbClient.rawQuery(q);
   }
 
   Future delete(Counter counter) async {
