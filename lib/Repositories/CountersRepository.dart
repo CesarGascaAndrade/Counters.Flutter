@@ -66,7 +66,7 @@ class CountersRepository {
     var dbClient = await db;
 
     //testing purporses
-    //await dbClient.rawQuery("insert into counters(name, count) values('test',0)");
+    await dbClient.rawQuery("insert into counters(name, count) values('test',0)");
 
     List<Map<String, dynamic>> list =
         await dbClient.rawQuery('SELECT * FROM counters');
