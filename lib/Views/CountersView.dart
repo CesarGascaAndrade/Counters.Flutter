@@ -1,7 +1,4 @@
 import 'package:counters/Models/Counter.dart';
-import 'package:counters/Repositories/CountersRepository.dart';
-import 'package:counters/Services/CountersService.dart';
-import 'package:counters/ViewModels/CounterViewModel.dart';
 import 'package:counters/ViewModels/CountersViewModel.dart';
 import 'package:counters/Views/CounterView.dart';
 import 'package:flutter/material.dart';
