@@ -4,7 +4,7 @@ import 'package:counters/ViewModels/CounterViewModel.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class CountersViewModel extends Model {
-  List<CounterViewModel> counters = List<CounterViewModel>();
+  List<Counter> counters = List<Counter>();
   CountersService service;
   bool loading = false;
 
@@ -21,20 +21,42 @@ class CountersViewModel extends Model {
     loading = true;
     this.counters.clear();
 
-    List<Counter> counters = await this.service.getAllCounters();
+    this.counters = await this.service.getAllCounters();
 
-    
-    counters.forEach((Counter counter) {
-      var viewModel = CounterViewModel(service);
-      viewModel.prepare(counter);
-      this.counters.add(viewModel);
-    });
-    
     notifyListeners();
     loading = false;
   }
 
-  Future removeCounter(CounterViewModel counter) {
-    counter.deleteCounter();
+  CounterViewModel createCounterViewModel(Counter counter) {
+    var viewModel = CounterViewModel(service);
+    if (counter == null) {
+      viewModel.prepare(new Counter());
+    } else {
+      viewModel.prepare(counter);
+    }
+
+    return viewModel;
+  }
+
+  Future decrementCounter(Counter counter) {
+    counter.count--;
+    this.service.saveCounter(counter);
+    loadCounters();
+  }
+
+  Future incrementCounter(Counter counter) {
+    counter.count++;
+    this.service.saveCounter(counter);
+    loadCounters();
+  }
+
+  Future saveCounter(Counter counter) {
+    this.service.saveCounter(counter);
+    loadCounters();
+  }
+
+  Future removeCounter(Counter counter) {
+    this.service.deleteCounter(counter);
+    notifyListeners();
   }
 }

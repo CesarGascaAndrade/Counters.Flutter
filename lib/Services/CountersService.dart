@@ -10,12 +10,10 @@ class CountersService {
     initialize();
   }
 
-  void initialize() {
-    
-  }
+  void initialize() {}
 
   Counter AddNewCounter(String name) {
-    Counter counter = Counter(name:name);
+    Counter counter = Counter(name: name);
     //this.repository.Save(counter);
 
     return counter;
@@ -25,10 +23,14 @@ class CountersService {
     return this.repository.GetAll();
   }
 
+  void saveCounter(Counter counter) {
+    this.repository.save(counter);
+  }
+
   void deleteCounter(Counter counter) {
     this.repository.delete(counter);
   }
-  
+
   void incrementCounter(Counter counter) {
     counter.count += 1;
     this.repository.save(counter);
